@@ -1,0 +1,540 @@
+\documentclass[12pt]{beamer}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{times}
+\usepackage{graphicx}
+
+\usetheme{Warsaw}
+\setbeamertemplate{footline}[frame number]
+
+% ---------- TITLE & SUBTITLE (SMALLEST SIZE) ----------
+\title{\small The Brain of AI: Exploring the World of Neural Networks}
+\subtitle{\footnotesize How artificial neurons power today’s intelligent technologies.}
+
+\author{\small Misbah Tasleem NS \\ 
+	\scriptsize 5th Sem CSE(AI \& ML)}
+
+\institute{
+	\scriptsize Under the guidance of\\[0.4em]
+	\small Dr. Poorna Chandra {\tiny (Mentor)} \hspace{1cm} 
+	Dr. Sachin Kumar {\tiny (HOD)}\\[0.4em]
+	\small Dept. of CSE(AI \& ML)\\
+	\scriptsize Jain College of Engineering, Belagavi
+}
+
+
+\date{\footnotesize\today}
+
+% ---------- LOGOS (REDUCED SIZE + WILL FIT) ----------
+\titlegraphic{
+	\vspace{0.4em}
+	\includegraphics[height=1.2cm]{vtu-logo.jpg} \hspace{0.5cm}
+	\includegraphics[height=1cm]{jce.jpg}
+}
+
+
+% ---------- LOGOS (REDUCED SIZE + WILL FIT) ----------
+\titlegraphic{
+	\vspace{0.5em}
+	\includegraphics[height=1.5cm]{vtu-logo.jpg} \hspace{0.7cm}
+	\includegraphics[height=1.2cm]{jce.jpg}
+}
+
+
+
+
+
+
+\begin{document}
+	
+	%-------------------Title Slide-------------------
+	\begin{frame}
+		\maketitle
+	\end{frame}
+	
+	%-------------------Frame 1: Points 1 and 2-------------------
+	\begin{frame}{Evolution of Neural Networks (Part 1)}
+		\begin{block}{1. What is a Neural Network?}
+			A system that takes inputs (images, text) and produces useful outputs (e.g., recognition, translation).
+		\end{block}
+		
+		\begin{block}{2. First Wave (1940s–1960s): Early Neural Models}
+			\begin{itemize}
+				\item McCulloch \& Pitts (1943) created the first artificial neuron.
+				\item Rosenblatt (1957) introduced the perceptron, the first learnable model.
+				\item Perceptrons couldn’t solve complex problems, leading to the first AI winter (Minsky \& Papert, 1969).
+			\end{itemize}
+		\end{block}
+	\end{frame}
+	
+	%-------------------Frame 2: Points 3 and 4-------------------
+	\begin{frame}[allowframebreaks]{Evolution of Neural Networks (Part 2)}
+		\begin{block}{3. Second Wave (1980s–1990s): Backpropagation \& CNNs}
+			\begin{itemize}
+				\item Backpropagation (1986) enabled learning in multilayer networks.
+				\item LeNet (1989) by LeCun et al. recognized handwritten ZIP codes.
+				\item Neural networks lost popularity due to limited computing power and stronger traditional ML methods.
+			\end{itemize}
+		\end{block}
+		
+		\begin{block}{4. Third Wave (2000s–Present): Deep Learning Era}
+			\begin{itemize}
+				\item Improved algorithms, large datasets, and GPUs fueled renewed interest.
+				\item AlexNet (2012) popularized deep learning by winning ImageNet.
+				\item Neural networks now dominate across  many applications and industries.
+			\end{itemize}
+		\end{block}
+	\end{frame}
+	
+	
+	
+	\begin{frame}{Biological Neuron}
+		\begin{itemize}
+			\item A biological neuron has:
+			\begin{itemize}
+				\item Dendrites – receive input signals.
+				\item Cell body – processes inputs.
+				\item Axon – sends outputs.
+				\item Synapses – connect neurons.
+			\end{itemize}
+		\end{itemize}
+		
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.6\textwidth]{neuron.png}
+			\caption{Structure of a Biological Neuron}
+		\end{figure}
+	\end{frame}
+	
+	\begin{frame}{Artificial Neuron (Perceptron)}
+		\begin{itemize}
+			\item The perceptron is inspired by how a biological neuron works.
+			\item It performs:
+			\begin{itemize}
+				\item Input signals ($x_1, x_2, \ldots$) — features.
+				\item Weights ($w_1, w_2, \ldots$) — importance of inputs.
+				\item Summation — adds weighted inputs.
+				\item Bias ($b$) — adjusts sensitivity.
+				\item Activation function — decides output.
+			\end{itemize}
+		\end{itemize}
+		
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.6\textwidth]{perceptron.png}
+			\caption{Structure of a Perceptron}
+		\end{figure}
+	\end{frame}
+	\begin{frame}{How It Mimics the Biological Neuron}
+		
+		\begin{itemize}
+			\item Dendrites: Inputs ($x_1, x_2, \ldots$)
+			\item Synaptic Strength: Weights ($w_1, w_2, \ldots$)
+			\item Cell Body (Summing signals): Summation Function ($\sum x_i w_i$)
+			\item Axon Hillock (Decision point): Activation Function (Sign/Step function)
+			\item Axon (Signal path): Output ($y$)
+			\item Threshold Potential: Bias ($b$)
+		\end{itemize}
+		
+	\end{frame}
+	
+	\begin{frame}{Example: Perceptron with 2 inputs}
+		For weights $w_0 = 0.9$, $w_1 = -0.6$, and $w_2 = -0.5$:
+		
+		\medskip
+		
+		When tested with all combinations of inputs $(-1, 1)$, the perceptron behaves like a NAND gate.  
+		This means perceptrons can simulate basic Boolean logic.
+		
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.6\textwidth]{2perceptron.png}
+			\caption{Structure of a 2-input Perceptron}
+		\end{figure}
+	\end{frame}
+	\begin{frame}{Perceptron Learning Algorithm}
+		The perceptron can learn correct weights automatically through supervised learning:
+		\begin{itemize}
+			\item Initialize weights randomly.
+			\item Pick an input–output pair.
+			\item Compute the perceptron’s output.
+			\item If it’s wrong, update each weight using:
+			\[
+			w_i = w_i + (\text{learning\_rate}) \times y \times x_i
+			\]
+			\item Repeat until all outputs are correct.
+		\end{itemize}
+		This process adjusts the weights gradually, allowing the perceptron to learn patterns.
+	\end{frame}
+	\begin{frame}{Limitations}
+		The perceptron can only classify linearly separable data (data that can be divided by a straight line).
+		For example:
+		•	Works for NAND or AND functions
+		
+		•	Fails for XOR, since XOR cannot be separated by a single straight line.
+		
+		\textbf{Overcoming the Limitation:}
+		\begin{itemize}
+			\item •	Combine multiple perceptrons in layers.
+			\item •	The first layer (hidden layer) separates parts of data.
+			\item •	The second layer (output neuron) combines them.
+		\end{itemize}
+		
+		This forms a multi-layer neural network (basis of modern deep learning).
+	\end{frame}
+	\begin{frame}[allowframebreaks]{Journey: From Perceptron to Modern CNNs}
+		\begin{itemize}
+			\item \textbf{1. Single Neuron (Perceptron) — 1957}
+			\begin{itemize}
+				\item Takes inputs, multiplies by weights, adds bias, passes through activation.
+				\item Can only solve linearly separable problems (simple yes/no).
+			\end{itemize}
+			
+			\item \textbf{2. Multi-Neuron (MLP) — 1980s}
+			\begin{itemize}
+				\item Multiple neurons connected in layers; uses backpropagation to learn.
+				\item Not efficient for images; huge number of weights if image is large.
+			\end{itemize}
+			
+			\item \textbf{3. Local Connectivity — Late 1970s–1980s}
+			\begin{itemize}
+				\item Each neuron connects only to a small patch of the input (like human vision).
+				\item Reduces computation and focuses on local patterns.
+			\end{itemize}
+			
+			\item \textbf{4. Neocognitron — 1980 (Fukushima)}
+			\begin{itemize}
+				\item Introduced convolution-like layers to detect patterns.
+				\item Added pooling-like layers to reduce size and retain important info.
+			\end{itemize}
+			
+			\item \textbf{5. LeNet — 1989–1998}
+			\begin{itemize}
+				\item First practical CNN combining convolution, pooling, and fully connected layers.
+				\item Used for handwritten digit recognition (ZIP codes, cheques).
+			\end{itemize}
+			
+			\item \textbf{6. Modern CNNs — 2012 Onwards}
+			\begin{itemize}
+				\item Deep networks with GPUs and large datasets (AlexNet, VGG, ResNet).
+				\item Can learn complex features efficiently and power today’s computer vision.
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+	\begin{frame}{CNN in Image Recognition 
+			\newline1. Intuition \& Overview}
+			\begin{itemize}
+		\item A CNN (Convolutional Neural Network) processes images by learning features (like edges, shapes, textures) in successive layers.
+		
+		\item Early layers detect simple patterns (edges, corners); deeper layers combine those into more complex features (ears, face, tail) and finally the network decides what the object is.
+		
+		\item The advantage: CNNs learn where and what in the image is important automatically, using filters/kernels, pooling, and fully connected layers.
+			\end{itemize}
+		\end{frame}
+		
+		
+		
+		%-------------------2. Example Setup-------------------
+		\begin{frame}{2. Example Setup}
+			Let’s say our dataset is small and we want to classify images into two classes: cat or dog. \\
+			Each image is 64 × 64 pixels, with 3 color channels (RGB). So the input shape is 64 × 64 × 3.
+			\begin{figure}
+				\centering
+				\includegraphics[width=0.7\textwidth]{cnn1.png}
+				\caption{Overview of a Convolutional Neural Network}
+			\end{figure}
+			
+		\end{frame}
+		
+		%-------------------3. Layer-by-Layer Walkthrough-------------------
+		\begin{frame}{3. Layer-by-Layer Walkthrough}
+			Here’s a simple CNN architecture we use as our example:
+			
+			\begin{itemize}
+				\item Input layer
+				\item Convolutional layer + ReLU
+				\item Max Pooling
+				\item (Possibly more conv + pooling layers)
+				\item Flatten layer
+				\item Fully connected (Dense) layer(s)
+				\item Output layer (softmax or sigmoid)
+			\end{itemize}
+			
+			\begin{figure}
+				\centering
+				\includegraphics[width=0.8\textwidth]{cnn2.png}
+				\caption{Simple CNN Architecture Example}
+			\end{figure}
+		\end{frame}
+		
+		%-------------------A. Input Layer-------------------
+		\begin{frame}{A. Input Layer}
+			Receives the raw pixels: 64 × 64 × 3
+			
+			No weights here — it’s just the data.
+		\end{frame}
+		
+		%-------------------B. Convolutional Layer-------------------
+		\begin{frame}{B. Convolutional Layer}
+			\begin{itemize}
+			\item The convolution layer uses small filters (kernels) like 3×3 or 5×5.
+			
+			\item These filters slide over the image from left to right, top to bottom.
+			
+			\item At every position, the filter and the image region are multiplied and added → gives one value.
+			
+			\item Doing this for the whole image forms a feature map.
+			
+			\item These feature maps highlight important patterns such as:
+			
+			vertical edges,horizontal edges,corner,textures
+			
+		   \item Convolution helps CNN understand the image locally (small region at a time).
+		\end{itemize}
+		\end{frame}
+		
+		%-------------------C. Activation Function-------------------
+		\begin{frame}{C. Activation Function (ReLU)}
+			\begin{itemize}
+				
+		 \item After convolution, you apply ReLU (Rectified Linear Unit):
+		\item 	It keeps positive values as they are and makes all negative values = 0.
+			
+		\[ 
+			\text{ReLU}(x) = \max(0, x)
+			\]
+			
+			\item This introduces non-linearity, making the model more expressive (can capture more complex patterns).
+		\end{itemize}
+		\end{frame}
+		
+		%-------------------D. Pooling Layer-------------------
+		\begin{frame}{D. Pooling Layer (Max Pooling)}
+		\begin{itemize}
+			\item Pooling reduces the size of the feature maps.
+			
+			\item Max Pooling takes the maximum value from each small region (e.g., 2×2 window).
+			
+			\item Helps keep the important features while removing unnecessary details.
+			
+			\item Makes the model faster and reduces computation.
+			
+		    \item Provides spatial invariance (small changes in image don’t affect output).
+		\end{itemize}
+		\end{frame}
+		
+		%-------------------E. Additional Conv + Pooling Layers-------------------
+		\begin{frame}{E. Additional Conv + Pooling Layers (optional)}
+			\begin{itemize}
+				\item Adding more conv and pool layers makes the CNN deeper, so early layers learn simple things (edges), and later layers learn complex things (shapes and objects).
+				
+				\item More layers can improve accuracy, but they also take more time to train and more computation power .
+			\end{itemize}
+		\end{frame}
+		
+		%-------------------F. Flatten Layer-------------------
+		\begin{frame}{F. Flatten Layer}
+		\begin{itemize}
+			\item After convolution and pooling, the output is still in 2D or 3D form (like 7×7×64).
+			Flatten layer converts this into a single long 1-dimensional vector.
+			
+			\item  This step is needed because the next part of the model (fully connected layers) can only take 1D input.
+			
+			\item Example:\newline
+			If the feature map size is 7 × 7 × 64, flattening it gives 3136 values in one row.
+		\end{itemize}
+		\end{frame}
+		
+		%-------------------G. Fully Connected (Dense) Layer-------------------
+		\begin{frame}{G. Fully Connected (Dense) Layer(s)}
+			This is like a classic neural network layer.
+			
+			Suppose we have one dense layer of 128 neurons. Each neuron connects to all flattened features.
+			
+			Activation (e.g. ReLU) is applied again.
+			
+			\textbf{What it does:} Combines all features to find higher-level decision boundaries.
+		\end{frame}
+		
+		%-------------------H. Output Layer-------------------
+		\begin{frame}{H. Output Layer}
+			\begin{itemize}
+				\item The output layer gives the final prediction of the CNN.
+				We use Softmax or sigmoid function  to convert the outputs into probabilities for each class.
+				\item If we use Softmax
+				
+				We need 2 neurons (one for Cat, one for Dog).
+				
+				Softmax gives two probabilities that add up to 1.
+				\item Since we classify Cat vs Dog, the model gives two probabilities, and the higher one tells whether the image is a Cat or a Dog.
+				
+				
+				\item  If we use Sigmoid
+				
+				We need 1 neuron.
+				
+				Sigmoid gives one probability (example: greater than  0.5 = Dog, less than 0.5 = Cat).
+			\end{itemize}
+		\end{frame}
+		
+		%-------------------4. Forward + Backprop-------------------
+		\begin{frame}{4. How It Works Together (Forward + Backprop)}
+			\textbf{Forward Pass:}
+			
+			Image → conv → ReLU → pooling → (repeat) → flatten → dense → output (probability).
+			
+			\textbf{Loss Computation:}
+			
+			Compare output with true label (cat or dog), compute loss (e.g. cross-entropy).
+			
+			\textbf{Backpropagation:}
+			
+			Compute gradients of loss w.r.t. all weights (in conv filters, dense layers).
+			
+			Update weights (filters and dense weights) using gradient descent (or optimizer like Adam).
+			
+			This trains the network to learn filters that detect features suited to distinguishing cats vs dogs.
+		\end{frame}
+		
+		
+		
+		
+		%-------------------6. What Each Layer Learns-------------------
+		\begin{frame}{5 . What Each Layer Learns}
+			First conv layer: edges, simple textures
+			
+			Second conv layer: combinations of edges → curves, small shapes
+			
+			Dense layers: combine these shapes to detect parts like ears, face, fur
+			
+			Output: final decision: cat or dog
+		\end{frame}
+		
+		%------------------- Slide: What is LeNet -------------------
+		\begin{frame}{What is LeNet?}
+			\begin{itemize}
+				\item LeNet is a neural network (a type of AI model) created by Yann LeCun.
+				\item Its job: look at a picture of a digit and tell which number it is.
+				\item It was used for tasks like reading:
+				\begin{itemize}
+					\item ZIP codes on letters
+					\item Numbers written on bank cheques
+				\end{itemize}
+			\end{itemize}
+		\end{frame}
+		
+		%------------------- Slide: How LeNet Sees an Image -------------------
+		\begin{frame}{How LeNet Sees an Image}
+			Think of recognizing a number the way you scan a page:
+			\begin{itemize}
+				\item First you look at tiny details (lines, small curves)
+				\item Then you join these small parts to see bigger shapes
+				\item Finally, your brain says: “This looks like a 3 or a 7.”
+			\end{itemize}
+			\vspace{0.5em}
+			LeNet works in the same way.
+		\end{frame}
+		
+		%------------------- Slide: How LeNet is Built -------------------
+		\begin{frame}{How LeNet is Built (Simple Analogy)}
+			LeNet has layers, like steps in a process. Each layer does something special.
+			
+			\begin{itemize}
+				\item Step 1: Looking at small parts (Convolution Layer)
+				\item Step 2: Keeping important things (Pooling Layer)
+				\item Step 3: Understanding bigger shapes (More Convolution + Pooling)
+				\item Step 4: Final decision-making (Fully Connected Layers)
+			\end{itemize}
+		\end{frame}
+		
+		%------------------- Slide: Step 1 -------------------
+		\begin{frame}{Step 1: Convolution Layer}
+			This layer looks at tiny pieces of the image:
+			\begin{itemize}
+				\item little lines
+				\item edges
+				\item corners
+			\end{itemize}
+			It works like zooming in to find small clues.
+		\end{frame}
+		
+		%------------------- Slide: Step 2 -------------------
+		\begin{frame}{Step 2: Pooling Layer}
+			From all the details, it keeps only the strongest or most important ones.
+			\begin{itemize}
+				\item Similar to taking notes – you only keep key points.
+				\item Pooling reduces the size but keeps meaningful information.
+			\end{itemize}
+		\end{frame}
+		
+		%------------------- Slide: Step 3 -------------------
+		\begin{frame}{Step 3: Understanding the Bigger Picture}
+			The model now combines small clues to recognize bigger shapes:
+			\begin{itemize}
+				\item Curves of “3”
+				\item Straight lines of “1”
+				\item Round shapes of “0”
+			\end{itemize}
+			More convolution + pooling improves pattern recognition.
+		\end{frame}
+		
+		%------------------- Slide: Step 4 -------------------
+		\begin{frame}{Step 4: Fully Connected Layers}
+			This step works like the brain thinking:
+			
+			\begin{block}{}
+				“Based on all the features, this looks like a 7.”
+			\end{block}
+			
+			The final layer gives the answer:
+			\begin{itemize}
+				\item Which digit (0–9) the image represents
+			\end{itemize}
+		\end{frame}
+		
+		%------------------- Slide: Why LeNet Was Special -------------------
+		\begin{frame}{Why LeNet Was Special}
+			\begin{itemize}
+				\item Before LeNet, computers struggled to read handwritten text.
+				\item LeNet learned from examples, just like humans do.
+				\item It didn’t need someone to manually design rules.
+				\item LeNet learned its own rules from data.
+			\end{itemize}
+			
+			This idea became the foundation for modern AI systems like:
+			\begin{itemize}
+				\item Self-driving cars
+				\item Face recognition
+				\item Advanced image processing
+			\end{itemize}
+		\end{frame}
+		
+		%------------------- Slide: Full Process -------------------
+		\begin{frame}{LeNet in One Simple Line}
+			\centering
+			\textbf{
+				Image → Find small patterns → Pick important patterns → Combine them → Decide the number
+			}
+		\end{frame}
+		
+		
+		\begin{frame}[allowframebreaks]{References}
+			\footnotesize
+			\begin{thebibliography}{99}
+				
+				\bibitem{lenet}
+				Yann LeCun.  
+				\textit{LeNet Convolutional Neural Network}.  
+				Available at: \url{http://yann.lecun.com/exdb/lenet/index.html}
+				
+				\bibitem{nvidia}
+				Magnus Ekman.  
+				\textit{Learning Deep Learning: Theory and Practice of Neural Networks, Computer Vision, Natural Language Processing, and Transformers Using TensorFlow}.  
+				NVIDIA Deep Learning Institute, 2021.
+				
+			\end{thebibliography}
+		\end{frame}
+		
+		
+		
+	\end{document}
